@@ -1,5 +1,4 @@
 import { createCatppuccinPlugin } from '@catppuccin/daisyui'
-
 export default createCatppuccinPlugin('mocha', {
   '--radius-selector': '0.25rem',
   '--radius-field': '0.5rem',
