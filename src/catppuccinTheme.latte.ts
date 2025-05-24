@@ -1,2 +1,5 @@
 import { createCatppuccinPlugin } from '@catppuccin/daisyui'
-export default createCatppuccinPlugin('latte', {}, { default: true })
+export default createCatppuccinPlugin('latte',
+  {
+    "primary": "mauve",
+  }, { default: true })

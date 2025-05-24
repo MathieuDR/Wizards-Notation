@@ -8,7 +8,6 @@
   onMount(() => {
     prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-    // Set the correct radio button as checked based on browser preference
     if (prefersDark) {
       darkRadio.checked = true;
     } else {
@@ -26,7 +25,6 @@
   }
 </script>
 
-<!-- Hidden radio buttons that DaisyUI will use for theme switching -->
 <input
   bind:this={lightRadio}
   type="radio"
@@ -42,14 +40,12 @@
   value="mocha"
 />
 
-<!-- Visible toggle UI -->
 <button
   type="button"
   class="flex cursor-pointer gap-2 items-center bg-transparent border-none p-0"
   on:click={toggleTheme}
   aria-label="Toggle theme"
 >
-  <!-- Sun icon (light mode) -->
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="20"
@@ -75,7 +71,6 @@
     tabindex="-1"
   />
 
-  <!-- Moon icon (dark mode) -->
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="20"
