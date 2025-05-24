@@ -14,7 +14,7 @@ export function calculateGraph(options: SpellOptions) {
 function calculate(opts: SpellOptions) {
   // To test
   return {
-    0: [1, 2, 3],
+    0: [opts.aoe, 2, 3],
     1: [4, 5],
     2: [6, 7],
     3: [8, 9],
