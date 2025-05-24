@@ -1,108 +1,149 @@
-<script>
+<script lang="ts">
+  import Notation from "$lib/components/Notation.svelte";
   import Option from "$lib/components/Option.svelte";
-  const levels = [
-    // k1
-    "Cantrip",
-    "Level 1",
-    "Level 2",
-    "Level 3",
-    "Level 4",
-    "Level 5",
-    "Level 6",
-    "Level 7",
-    "Level 8",
-    "Level 9",
-  ];
+  import { calculateGraph } from "$lib/calculations/graph";
+  import type { SpellOptions } from "$lib/calculations/graph";
+  import {
+    levels,
+    schools,
+    duration,
+    damage,
+    aoe,
+    range,
+  } from "$lib/data/spell-data";
 
-  const schools = [
-    // k2
-    "Abjuration",
-    "Conjuration",
-    "Divination",
-    "Enchantment",
-    "Evocation",
-    "Illusion",
-    "Necromancy",
-    "Transmutation",
-  ];
+  let levelState = $state(0);
+  let schoolState = $state(1);
+  let damageState = $state(0);
+  let aoeState = $state(1);
+  let rangeState = $state(1);
+  let durationState = $state(1);
 
-  // const time = [
-  //   "Action",
-  //   "Bonus Action",
-  //   "Reaction",
-  //   "1 Minute",
-  //   "10 Minute",
-  //   "1 Hour",
-  //   "8 Hours",
-  //   "12 Hours",
-  //   "24 Hours",
-  // ];
+  let spellOptions: SpellOptions = $derived({
+    level: levelState,
+    school: schoolState,
+    damage: damageState,
+    aoe: aoeState,
+    range: rangeState,
+    duration: durationState,
+  });
 
-  const duration = [
-    //k6
-    "Instantaneous",
-    "1 Round",
-    "1 Minute",
-    "10 Minute",
-    "1 Hour",
-    "8 Hours",
-    "12 Hours",
-    "24 Hours",
-    "Longer",
-    "Until Dispelled",
-    "Until Dispelled or Triggered",
-  ];
+  let shapeState = $state("circle");
+  let lineState = $state("straight");
+  let minimumDots = $state("8");
 
-  const damage = [
-    //k3
-    "None",
-    "Acid",
-    "Bludgeoning",
-    "Cold",
-    "Fire",
-    "Force",
-    "Lightning",
-    "Necrotic",
-    "Piercing",
-    "Poison",
-    "Psychic",
-    "Radiant",
-    "Slashing",
-    "Thunder",
-  ];
+  let drawingOptions = $derived({
+    shape: shapeState,
+    line: lineState,
+    dots: minimumDots,
+  });
 
-  // Area of effect
-  const aoe = [
-    //k4
-    "Cone",
-    "Cylinder",
-    "Line",
-    "Cube",
-    "Emanation",
-    "Sphere",
-  ];
+  let graph = $derived(calculateGraph(spellOptions));
 
-  // k5
-  const range = ["Self", "Touch", "Ranged", "Sight", "Unlimited"];
+  let notationOptions = $derived({
+    graph: graph,
+    drawing: drawingOptions,
+  });
 </script>
 
-<div class="flex flex-col gap-8 flex-1">
+<div class="flex-1 flex">
   <div id="ctx" class="gap-8 flex flex-1">
     <div id="controls" class="flex-none w-1/3">
-      <fieldset
-        class="fieldset bg-base-200 border-base-300 p-4 rounded-box border max-w-64"
-      >
-        <legend class="fieldset-legend">Spell info</legend>
+      <div id="spell" class="max-w-64">
+        <fieldset
+          class="fieldset bg-base-200 border-base-300 p-4 rounded-box border max-w-64"
+        >
+          <legend class="fieldset-legend">Spell info</legend>
 
-        <Option name="Level" startsAtZero values={levels}></Option>
-        <Option name="School" values={schools}></Option>
-        <Option name="Damage Type" startsAtZero values={damage}></Option>
-        <Option name="Area of Effect" values={aoe}></Option>
-        <Option name="Range" values={range}></Option>
-        <Option name="Duration" values={duration}></Option>
-      </fieldset>
+          <Option
+            name="Level"
+            bind:value={levelState}
+            startsAtZero
+            values={levels}
+          ></Option>
+          <Option name="School" bind:value={schoolState} values={schools}
+          ></Option>
+          <Option
+            name="Damage Type"
+            bind:value={damageState}
+            startsAtZero
+            values={damage}
+          ></Option>
+          <Option name="Area of Effect" bind:value={aoeState} values={aoe}
+          ></Option>
+          <Option name="Range" bind:value={rangeState} values={range}></Option>
+          <Option name="Duration" bind:value={durationState} values={duration}
+          ></Option>
+        </fieldset>
+      </div>
+      <div id="drawing">
+        <fieldset
+          class="fieldset bg-base-200 border-base-300 p-4 rounded-box border max-w-64"
+        >
+          <legend class="fieldset-legend">Drawing options</legend>
+
+          <label for="shape">Shape</label>
+          <select
+            bind:value={shapeState}
+            name="shape"
+            class="select mb-4"
+            id="shape"
+          >
+            <option selected value="circle">Circle</option>
+            <option value="line">Line</option>
+            <option value="spiral">Spiral</option>
+          </select>
+
+          <label for="line">Line type</label>
+          <select
+            bind:value={lineState}
+            name="line"
+            class="select mb-4"
+            id="line"
+          >
+            <option selected value="straight">Straight</option>
+            <option value="curved">Curved</option>
+          </select>
+
+          <label for="dots">Minimum dots</label>
+          <div class="w-full max-w-xs mb-4">
+            <input
+              type="range"
+              min="6"
+              max="15"
+              class="range range-primary"
+              step="1"
+              bind:value={minimumDots}
+            />
+            <div class="flex justify-between px-2.5 mt-2 text-xs">
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+              <span>|</span>
+            </div>
+            <div class="flex justify-between px-2.5 mt-2 text-xs">
+              <span>6</span>
+              <span>7</span>
+              <span>8</span>
+              <span>9</span>
+              <span>10</span>
+              <span>11</span>
+              <span>12</span>
+              <span>13</span>
+              <span>14</span>
+              <span>15</span>
+            </div>
+          </div>
+        </fieldset>
+      </div>
     </div>
-    <div id="canvas" class="flex-1 w-2/3">CANVAS</div>
+    <Notation extraClasses="flex-1" options={notationOptions}></Notation>
   </div>
-  <div id="debug" class="h-auto min-h-40">BLABLA</div>
 </div>
