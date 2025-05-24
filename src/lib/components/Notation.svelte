@@ -1,5 +1,8 @@
 <script lang="ts">
   let { extraClasses, options } = $props();
+  $effect(() => {
+    console.log(options.graph);
+  });
 </script>
 
 <div class="flex flex-1 flex-col gap-4">
