@@ -8,4 +8,4 @@ build:
   yarn vite build
 
 run:
-  yarn vite preview
+  yarn vite dev --open

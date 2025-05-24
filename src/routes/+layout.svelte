@@ -5,14 +5,14 @@
   import "../app.css";
 </script>
 
-<div id="wrapper" class="flex flex-col min-h-screen justify-between">
+<div id="wrapper" class="flex flex-col min-h-screen justify-between h-full">
   <header class="h-10 navbar flex justify-between p-8 pb-0">
     <h1>Wizards Notation</h1>
     <ThemeToggle />
   </header>
   <div class="divider"></div>
 
-  <main class="mb-auto h-auto p-8">
+  <main class="mb-auto flex-1 p-8 h-full flex">
     {@render children()}
   </main>
 
