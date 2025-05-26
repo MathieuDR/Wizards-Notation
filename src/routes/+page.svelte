@@ -37,7 +37,7 @@
 
   let shapeState = $state("circle");
   let lineState = $state("straight");
-  let minimumDots = $state(0);
+  let minimumDots = $state(3);
   let angleOffsetState = $state(-90);
 
   let drawingOptions = $derived({
