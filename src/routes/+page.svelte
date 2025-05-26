@@ -12,9 +12,9 @@
     range,
   } from "$lib/data/spell-data";
 
-  let levelState = $state(0);
+  let levelState = $state(1);
   let schoolState = $state(1);
-  let damageState = $state(0);
+  let damageState = $state(1);
   let aoeState = $state(1);
   let rangeState = $state(1);
   let durationState = $state(1);
@@ -30,7 +30,7 @@
 
   let shapeState = $state("circle");
   let lineState = $state("straight");
-  let minimumDots = $state("8");
+  let minimumDots = $state("0");
 
   let drawingOptions = $derived({
     shape: shapeState,
@@ -55,19 +55,10 @@
         >
           <legend class="fieldset-legend">Spell info</legend>
 
-          <Option
-            name="Level"
-            bind:value={levelState}
-            startsAtZero
-            values={levels}
-          ></Option>
+          <Option name="Level" bind:value={levelState} values={levels}></Option>
           <Option name="School" bind:value={schoolState} values={schools}
           ></Option>
-          <Option
-            name="Damage Type"
-            bind:value={damageState}
-            startsAtZero
-            values={damage}
+          <Option name="Damage Type" bind:value={damageState} values={damage}
           ></Option>
           <Option name="Area of Effect" bind:value={aoeState} values={aoe}
           ></Option>
@@ -105,12 +96,12 @@
             <option value="curved">Curved</option>
           </select>
 
-          <label for="dots">Minimum dots</label>
+          <label for="dots">Extra dots</label>
           <div class="w-full max-w-xs mb-4">
             <input
               type="range"
-              min="6"
-              max="15"
+              min="0"
+              max="10"
               class="range range-primary"
               step="1"
               bind:value={minimumDots}
@@ -129,16 +120,17 @@
               <span>|</span>
             </div>
             <div class="flex justify-between px-2.5 mt-2 text-xs">
+              <span>0</span>
+              <span>1</span>
+              <span>2</span>
+              <span>3</span>
+              <span>4</span>
+              <span>5</span>
               <span>6</span>
               <span>7</span>
               <span>8</span>
               <span>9</span>
               <span>10</span>
-              <span>11</span>
-              <span>12</span>
-              <span>13</span>
-              <span>14</span>
-              <span>15</span>
             </div>
           </div>
         </fieldset>
