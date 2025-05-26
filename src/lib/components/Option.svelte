@@ -15,5 +15,9 @@
       <option value={calcValue(i)}> {value} </option>
     {/each}
   </select>
-  <input type="checkbox" bind:checked={enabled} class="toggle toggle-xs" />
+  <input
+    type="checkbox"
+    bind:checked={enabled}
+    class="toggle toggle-xs toggle-success"
+  />
 </div>

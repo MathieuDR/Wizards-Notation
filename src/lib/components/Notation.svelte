@@ -51,8 +51,10 @@
   function drawGraph(graph: Map<number, number[]>, path: pathOptions) {
     graph.forEach((value: number[], key: number) => {
       console.log(`Key: ${key}, values: ${value.join(", ")}`);
-      const { x: ax, y: ay } = circleCoords(key, path);
-      value.forEach((b) => {
+      let a = options.drawing.flipped ? path.dots - key : key;
+      const { x: ax, y: ay } = circleCoords(a, path);
+      value.forEach((dest) => {
+        let b = options.drawing.flipped ? path.dots - dest : dest;
         const { x: bx, y: by } = circleCoords(b, path);
         const linePoints = [ax + 10, ay + 10, bx + 10, by + 10];
 

@@ -39,12 +39,14 @@
   let lineState = $state("straight");
   let minimumDots = $state(3);
   let angleOffsetState = $state(-90);
+  let flipState = $state(false);
 
   let drawingOptions = $derived({
     shape: shapeState,
     line: lineState,
     dots: minimumDots,
     offset: angleOffsetState,
+    flipped: flipState,
   });
 
   let graph = $derived(calculateGraph(spellOptions));
@@ -174,10 +176,15 @@
             type="range"
             min="-180"
             max="180"
-            class="range range-primary"
+            class="range range-primary mb-4"
             step="1"
             bind:value={angleOffsetState}
           />
+
+          <label class="label">
+            <input type="checkbox" bind:checked={flipState} class="toggle" />
+            Flipped
+          </label>
         </fieldset>
       </div>
     </div>
