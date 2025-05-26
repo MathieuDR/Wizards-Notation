@@ -12,8 +12,7 @@ export function calculateGraph(options: SpellOptions) {
 }
 
 function calculate(opts: SpellOptions) {
-  // const nums = [opts.level, opts.school, opts.damage, opts.aoe, opts.range, opts.duration]
-  const nums = [0, 0, opts.damage]
+  const nums = [opts.level, opts.school, opts.damage, opts.aoe, opts.range, opts.duration]
   const { map } = nums.reduce((acc, n) => {
     let { map, k } = acc
     const nMap = connections(n, k)

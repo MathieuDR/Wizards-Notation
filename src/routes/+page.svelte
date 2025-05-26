@@ -14,28 +14,37 @@
 
   let levelState = $state(1);
   let schoolState = $state(1);
-  let damageState = $state(1);
-  let aoeState = $state(1);
+  let damageState = $state(0);
+  let aoeState = $state(0);
   let rangeState = $state(1);
   let durationState = $state(1);
 
+  let levelEnabled = $state(false);
+  let schoolEnabled = $state(false);
+  let damageEnabled = $state(false);
+  let aoeEnabled = $state(false);
+  let rangeEnabled = $state(false);
+  let durationEnabled = $state(false);
+
   let spellOptions: SpellOptions = $derived({
-    level: levelState,
-    school: schoolState,
-    damage: damageState,
-    aoe: aoeState,
-    range: rangeState,
-    duration: durationState,
+    level: levelEnabled ? levelState : 0,
+    school: schoolEnabled ? schoolState : 0,
+    damage: damageEnabled ? damageState : 0,
+    aoe: aoeEnabled ? aoeState : 0,
+    range: rangeEnabled ? rangeState : 0,
+    duration: durationEnabled ? durationState : 0,
   });
 
   let shapeState = $state("circle");
   let lineState = $state("straight");
-  let minimumDots = $state("0");
+  let minimumDots = $state(0);
+  let angleOffsetState = $state(-90);
 
   let drawingOptions = $derived({
     shape: shapeState,
     line: lineState,
     dots: minimumDots,
+    offset: angleOffsetState,
   });
 
   let graph = $derived(calculateGraph(spellOptions));
@@ -54,16 +63,43 @@
           class="fieldset bg-base-200 border-base-300 p-4 rounded-box border max-w-64"
         >
           <legend class="fieldset-legend">Spell info</legend>
-
-          <Option name="Level" bind:value={levelState} values={levels}></Option>
-          <Option name="School" bind:value={schoolState} values={schools}
+          <Option
+            name="Level"
+            bind:value={levelState}
+            bind:enabled={levelEnabled}
+            values={levels}
           ></Option>
-          <Option name="Damage Type" bind:value={damageState} values={damage}
+          <Option
+            name="School"
+            bind:value={schoolState}
+            bind:enabled={schoolEnabled}
+            values={schools}
           ></Option>
-          <Option name="Area of Effect" bind:value={aoeState} values={aoe}
+          <Option
+            name="Damage Type"
+            startsAtZero
+            bind:value={damageState}
+            bind:enabled={damageEnabled}
+            values={damage}
           ></Option>
-          <Option name="Range" bind:value={rangeState} values={range}></Option>
-          <Option name="Duration" bind:value={durationState} values={duration}
+          <Option
+            name="Area of Effect"
+            startsAtZero
+            bind:value={aoeState}
+            bind:enabled={aoeEnabled}
+            values={aoe}
+          ></Option>
+          <Option
+            name="Range"
+            bind:value={rangeState}
+            bind:enabled={rangeEnabled}
+            values={range}
+          ></Option>
+          <Option
+            name="Duration"
+            bind:value={durationState}
+            bind:enabled={durationEnabled}
+            values={duration}
           ></Option>
         </fieldset>
       </div>
@@ -133,6 +169,15 @@
               <span>10</span>
             </div>
           </div>
+          <label for="dots">Angle offset</label>
+          <input
+            type="range"
+            min="-180"
+            max="180"
+            class="range range-primary"
+            step="1"
+            bind:value={angleOffsetState}
+          />
         </fieldset>
       </div>
     </div>
